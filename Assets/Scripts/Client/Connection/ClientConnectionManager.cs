@@ -32,7 +32,7 @@ namespace ECS_Multiplayer.Client.Connection
             connectionModeDropdown.onValueChanged.RemoveAllListeners();
             connectButton.onClick.RemoveAllListeners();
         }
-  
+
         private void OnConnectionModeChanged(int connectionMode)
         {
             string buttonText;
@@ -57,7 +57,7 @@ namespace ECS_Multiplayer.Client.Connection
             
             connectButtonText.SetText(buttonText);
         }
-        
+
         private void OnConnectButtonPressed()
         {
             DestroyLocalSimulationWorld();
@@ -92,7 +92,7 @@ namespace ECS_Multiplayer.Client.Connection
                 }
             }
         }
-    
+
         private void StartServer()
         {
             var serverWorld = ClientServerBootstrap.CreateServerWorld("Server World");
@@ -102,7 +102,7 @@ namespace ECS_Multiplayer.Client.Connection
                 networkDriverQuery.GetSingletonRW<NetworkStreamDriver>().ValueRW.Listen(serverEndpoint);
             }
         }
-        
+
         private void StartClient()
         {
             var clientWorld = ClientServerBootstrap.CreateClientWorld("Client World");
