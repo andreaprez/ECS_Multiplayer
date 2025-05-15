@@ -1,7 +1,6 @@
 using Unity.Entities;
-using UnityEngine;
 
-namespace TMG.NFE_Tutorial
+namespace ECS_Multiplayer.Client.Camera
 {
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
     public partial class InitializeMainCameraSystem : SystemBase
@@ -15,7 +14,7 @@ namespace TMG.NFE_Tutorial
         {
             Enabled = false;
             var mainCameraEntity = SystemAPI.GetSingletonEntity<MainCameraTag>();
-            EntityManager.SetComponentData(mainCameraEntity, new MainCamera { Value = Camera.main });
+            EntityManager.SetComponentData(mainCameraEntity, new MainCamera { Value = UnityEngine.Camera.main });
         }
     }
 }
