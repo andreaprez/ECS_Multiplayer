@@ -1,3 +1,4 @@
+using ECS_Multiplayer.Client.Common;
 using TMPro;
 using Unity.Entities;
 using Unity.NetCode;
@@ -111,7 +112,20 @@ namespace ECS_Multiplayer.Client.Connection
                 using var networkDriverQuery = clientWorld.EntityManager.CreateEntityQuery((ComponentType.ReadWrite<NetworkStreamDriver>()));
                 networkDriverQuery.GetSingletonRW<NetworkStreamDriver>().ValueRW.Connect(clientWorld.EntityManager, connectionEndpoint);
             }
-            World.DefaultGameObjectInjectionWorld = clientWorld;
+
+            var team = teamDropdown.value switch
+            {
+                0 => TeamType.AutoAssign,
+                1 => TeamType.Blue,
+                2 => TeamType.Red,
+                _ => TeamType.None
+            };
+
+            var teamRequestEntity = clientWorld.EntityManager.CreateEntity();
+            clientWorld.EntityManager.AddComponentData(teamRequestEntity, new ClientTeamRequest
+            {
+                Value = team
+            });
         }
     }
 }
