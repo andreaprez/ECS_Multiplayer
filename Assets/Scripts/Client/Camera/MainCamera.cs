@@ -1,11 +1,10 @@
 using Unity.Entities;
-using UnityEngine;
 
-namespace TMG.NFE_Tutorial
+namespace ECS_Multiplayer.Client.Camera
 {
     public class MainCamera : IComponentData
     {
-        public Camera Value;
+        public UnityEngine.Camera Value;
     }
 
     public struct MainCameraTag : IComponentData {}

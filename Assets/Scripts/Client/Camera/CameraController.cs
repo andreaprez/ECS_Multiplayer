@@ -2,7 +2,7 @@ using Cinemachine;
 using Unity.Entities;
 using UnityEngine;
 
-namespace TMG.NFE_Tutorial
+namespace ECS_Multiplayer.Client.Camera
 {
     public class CameraController : MonoBehaviour
     {
