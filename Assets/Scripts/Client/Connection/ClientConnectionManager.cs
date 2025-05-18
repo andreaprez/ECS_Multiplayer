@@ -1,4 +1,4 @@
-using ECS_Multiplayer.Client.Common;
+using ECS_Multiplayer.Common;
 using TMPro;
 using Unity.Entities;
 using Unity.NetCode;

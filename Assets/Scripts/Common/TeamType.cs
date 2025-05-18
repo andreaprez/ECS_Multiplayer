@@ -1,4 +1,4 @@
-﻿namespace ECS_Multiplayer.Client.Common
+﻿namespace ECS_Multiplayer.Common
 {
     public enum TeamType : byte
     {

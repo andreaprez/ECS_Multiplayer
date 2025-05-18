@@ -1,4 +1,4 @@
-﻿using ECS_Multiplayer.Client.Common;
+﻿using ECS_Multiplayer.Common;
 using Unity.Entities;
 
 namespace ECS_Multiplayer.Client
