@@ -1,4 +1,5 @@
 ﻿using Unity.Entities;
+using Unity.Rendering;
 using UnityEngine;
 
 namespace ECS_Multiplayer.Common
@@ -13,6 +14,7 @@ namespace ECS_Multiplayer.Common
                 AddComponent<ChampionTag>(entity);
                 AddComponent<NewChampionTag>(entity);
                 AddComponent<GameTeam>(entity);
+                AddComponent<URPMaterialPropertyBaseColor>(entity);
             }
         }
     }

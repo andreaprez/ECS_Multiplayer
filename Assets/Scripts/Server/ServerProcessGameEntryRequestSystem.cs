@@ -4,6 +4,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Transforms;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ECS_Multiplayer.Server
@@ -40,10 +41,22 @@ namespace ECS_Multiplayer.Server
                 var clientId = SystemAPI.GetComponent<NetworkId>(requestSource.ValueRO.SourceConnection).Value;
                 Debug.Log($"Server is assigning Client ID: {clientId} to the {requestedTeamType.ToString()} team.");
 
+                float3 spawnPosition;
+                switch (requestedTeamType)
+                {
+                    case TeamType.Blue:
+                        spawnPosition = new float3(-70f, 3f, -70f);
+                        break;
+                    case TeamType.Red:
+                        spawnPosition = new float3(70f, 3f, 70f);
+                        break;
+                    default:
+                        continue;
+                }
+
                 var newChampion = ecb.Instantiate(championPrefab);
                 ecb.SetName(newChampion, "Champion");
-                var spawnPosition = new float3(0, 1, 0);
-                var newTransform = LocalTransform.FromPosition(spawnPosition);
+                var newTransform = LocalTransform.FromPositionRotationScale(spawnPosition, quaternion.identity, 3);
                 ecb.SetComponent(newChampion, newTransform);
                 ecb.SetComponent(newChampion, new GhostOwner { NetworkId = clientId });
                 ecb.SetComponent(newChampion, new GameTeam { Value = requestedTeamType });
