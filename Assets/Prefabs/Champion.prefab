@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5368423434310858}
   - component: {fileID: 1601110515282724888}
   - component: {fileID: 5588456265248360994}
+  - component: {fileID: 8436643253760142129}
   m_Layer: 0
   m_Name: Champion
   m_TagString: Untagged
@@ -295,3 +296,15 @@ MonoBehaviour:
   UseSingleBaseline: 0
   RollbackPredictedSpawnedGhostState: 0
   RollbackPredictionOnStructuralChanges: 1
+--- !u!114 &8436643253760142129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990307241937871106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e54dc557df4381bd3c2827251c3420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
