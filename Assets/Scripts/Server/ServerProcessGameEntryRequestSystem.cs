@@ -45,6 +45,10 @@ namespace ECS_Multiplayer.Server
                 var spawnPosition = new float3(0, 1, 0);
                 var newTransform = LocalTransform.FromPosition(spawnPosition);
                 ecb.SetComponent(newChampion, newTransform);
+                ecb.SetComponent(newChampion, new GhostOwner { NetworkId = clientId });
+                ecb.SetComponent(newChampion, new GameTeam { Value = requestedTeamType });
+
+                ecb.AppendToBuffer(requestSource.ValueRO.SourceConnection, new LinkedEntityGroup { Value = newChampion });
             }
 
             ecb.Playback(state.EntityManager);
