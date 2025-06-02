@@ -45,10 +45,10 @@ namespace ECS_Multiplayer.Server
                 switch (requestedTeamType)
                 {
                     case TeamType.Blue:
-                        spawnPosition = new float3(-70f, 3f, -70f);
+                        spawnPosition = new float3(-75f, 3f, -75f);
                         break;
                     case TeamType.Red:
-                        spawnPosition = new float3(70f, 3f, 70f);
+                        spawnPosition = new float3(75f, 3f, 75f);
                         break;
                     default:
                         continue;
