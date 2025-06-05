@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 278833587544081025}
   - component: {fileID: 5137260714140365816}
   - component: {fileID: 4195631825281817692}
+  - component: {fileID: 2471610346512703408}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -111,6 +112,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHitPoints: 250
+--- !u!114 &2471610346512703408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5502696548850780669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532d05cad1364564ab90ac6668ef995a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Team: 0
 --- !u!1 &8196956183062451420
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5588456265248360994}
   - component: {fileID: 8436643253760142129}
   - component: {fileID: 1544736790823576938}
+  - component: {fileID: 320868148994063923}
   m_Layer: 0
   m_Name: Champion
   m_TagString: Untagged
@@ -325,6 +326,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHitPoints: 1000
+--- !u!114 &320868148994063923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990307241937871106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b9a4e73ec2241cab5484b8f48d12b89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AoeAbilityPrefab: {fileID: 6760138154020519774, guid: 4b0301a5013ace9469b73c5ecd8087d4,
+    type: 3}
 --- !u!1 &7284172090724663713
 GameObject:
   m_ObjectHideFlags: 0
