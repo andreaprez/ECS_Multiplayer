@@ -1,7 +1,10 @@
 ﻿using ECS_Multiplayer.Common;
+using ECS_Multiplayer.Common.Champion;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.NetCode;
+using Unity.Transforms;
 using UnityEngine;
 
 namespace ECS_Multiplayer.Server
@@ -14,27 +17,50 @@ namespace ECS_Multiplayer.Server
             var builder = new EntityQueryBuilder(Allocator.Temp)
                 .WithAll<TeamRequest, ReceiveRpcCommandRequest>();
             state.RequireForUpdate(state.GetEntityQuery(builder));
+            state.RequireForUpdate<GamePrefabs>();
         }
 
         public void OnUpdate(ref SystemState state)
         {
             var ecb = new EntityCommandBuffer(Allocator.Temp);
+            var championPrefab = SystemAPI.GetSingleton<GamePrefabs>().Champion;
 
             foreach (var (teamRequest, requestSource, requestEntity) in 
-                     SystemAPI.Query<TeamRequest, ReceiveRpcCommandRequest>().WithEntityAccess())
+                     SystemAPI.Query<RefRO<TeamRequest>, RefRO<ReceiveRpcCommandRequest>>().WithEntityAccess())
             {
                 ecb.DestroyEntity(requestEntity);
-                ecb.AddComponent<NetworkStreamInGame>(requestSource.SourceConnection);
+                ecb.AddComponent<NetworkStreamInGame>(requestSource.ValueRO.SourceConnection);
 
-                var requestedTeamType = teamRequest.Value;
+                var requestedTeamType = teamRequest.ValueRO.Value;
 
                 if (requestedTeamType == TeamType.AutoAssign)
                 {
                     requestedTeamType = TeamType.Blue;
                 }
 
-                var clientId = SystemAPI.GetComponent<NetworkId>(requestSource.SourceConnection).Value;
-                Debug.Log($"Server is assigning Client ID: {clientId} to the {requestedTeamType.ToString()} team.");
+                var clientId = SystemAPI.GetComponent<NetworkId>(requestSource.ValueRO.SourceConnection).Value;
+
+                float3 spawnPosition;
+                switch (requestedTeamType)
+                {
+                    case TeamType.Blue:
+                        spawnPosition = new float3(-75f, 3f, -75f);
+                        break;
+                    case TeamType.Red:
+                        spawnPosition = new float3(75f, 3f, 75f);
+                        break;
+                    default:
+                        continue;
+                }
+
+                var newChampion = ecb.Instantiate(championPrefab);
+                ecb.SetName(newChampion, "Champion");
+                var newTransform = LocalTransform.FromPositionRotationScale(spawnPosition, quaternion.identity, 3);
+                ecb.SetComponent(newChampion, newTransform);
+                ecb.SetComponent(newChampion, new GhostOwner { NetworkId = clientId });
+                ecb.SetComponent(newChampion, new GameTeam { Value = requestedTeamType });
+
+                ecb.AppendToBuffer(requestSource.ValueRO.SourceConnection, new LinkedEntityGroup { Value = newChampion });
             }
 
             ecb.Playback(state.EntityManager);

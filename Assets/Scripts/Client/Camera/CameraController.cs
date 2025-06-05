@@ -1,29 +1,34 @@
 using Cinemachine;
+using ECS_Multiplayer.Common;
+using ECS_Multiplayer.Common.Champion;
 using Unity.Entities;
+using Unity.NetCode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ECS_Multiplayer.Client.Camera
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
+        [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
         
-        [Header("Move Settings")]
-        [SerializeField] private bool _drawBounds;
-        [SerializeField] private Bounds _cameraBounds;
-        [SerializeField] private float _camSpeed;
-        [SerializeField] private Vector2 _screenPercentageDetection;
+        [Header("Movement Settings")]
+        [SerializeField] private Vector2 screenPercentageDetection;
+        [SerializeField] private Bounds cameraBounds;
+        [SerializeField] private float camSpeed;
 
         [Header("Zoom Settings")]
-        [SerializeField] private float _minZoomDistance;
-        [SerializeField] private float _maxZoomDistance;
-        [SerializeField] private float _zoomSpeed;
+        [SerializeField] private float minZoomDistance;
+        [SerializeField] private float maxZoomDistance;
+        [SerializeField] private float zoomSpeed;
 
-        [Header("Camera Start Positions")] 
-        [SerializeField] private Vector3 _spectatorPosition = new(0f, 0f, 0f);
+        [Header("Start Positions")] 
+        [SerializeField] private Vector3 blueTeamPosition = new(-70f, 0f, -70f);
+        [SerializeField] private Vector3 redTeamPosition = new(70f, 0f, 70f);
+        [SerializeField] private Vector3 spectatorPosition = new(0f, 0f, 0f);
         
         private Vector2 _normalScreenPercentage;
-        private Vector2 NormalMousePos => new Vector2(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
+        private Vector2 NormalMousePos => new (Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
         private bool InScreenLeft => NormalMousePos.x < _normalScreenPercentage.x  && Application.isFocused;
         private bool InScreenRight => NormalMousePos.x > 1 - _normalScreenPercentage.x  && Application.isFocused;
         private bool InScreenTop => NormalMousePos.y < _normalScreenPercentage.y  && Application.isFocused;
@@ -37,51 +42,94 @@ namespace ECS_Multiplayer.Client.Camera
         
         private void Awake()
         {
-            _normalScreenPercentage = _screenPercentageDetection * 0.01f;
-            _transposer = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+            _normalScreenPercentage = screenPercentageDetection * 0.01f;
+            _transposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         }
 
         private void Start()
         {
-            transform.position = _spectatorPosition;
-        }
+            if (ClientServerBootstrap.ClientWorld == null)
+                return;
+            
+            _entityManager = ClientServerBootstrap.ClientWorld.EntityManager;
+            _teamControllerQuery = _entityManager.CreateEntityQuery(typeof(ClientTeamRequest));
+            _localChampQuery = _entityManager.CreateEntityQuery(typeof(OwnerChampionTag));
 
-        private void OnValidate()
-        {
-            _normalScreenPercentage = _screenPercentageDetection * 0.01f;
+            SetInitialCameraPosition();
         }
 
         private void Update()
         {
+            SetCameraForAutoAssignedTeam();
             MoveCamera();
             ZoomCamera();
         }
 
+        private void SetInitialCameraPosition()
+        {
+            if (_teamControllerQuery.TryGetSingleton<ClientTeamRequest>(out var requestedTeam))
+            {
+                var team = requestedTeam.Value;
+                var cameraPosition = team switch
+                {
+                    TeamType.Blue => blueTeamPosition,
+                    TeamType.Red => redTeamPosition,
+                    _ => spectatorPosition
+                };
+                transform.position = cameraPosition;
+
+                if (team != TeamType.AutoAssign)
+                {
+                    _cameraSet = true;
+                }
+            }        
+        }
+
+        private void SetCameraForAutoAssignedTeam()
+        {
+            if (!_cameraSet)
+            {
+                if (_localChampQuery.TryGetSingletonEntity<OwnerChampionTag>(out var localChampion))
+                {
+                    var team = _entityManager.GetComponentData<GameTeam>(localChampion).Value;
+                    var cameraPosition = team switch
+                    {
+                        TeamType.Blue => blueTeamPosition,
+                        TeamType.Red => redTeamPosition,
+                        _ => spectatorPosition
+                    };
+                    transform.position = cameraPosition;
+                    
+                    _cameraSet = true;
+                }
+            }
+        }
+        
         private void MoveCamera()
         {
             if (InScreenLeft)
             {
-                transform.position += Vector3.left * (_camSpeed * Time.deltaTime);
+                transform.position += Vector3.left * (camSpeed * Time.deltaTime);
             }
 
             if (InScreenRight)
             {
-                transform.position += Vector3.right * (_camSpeed * Time.deltaTime);
+                transform.position += Vector3.right * (camSpeed * Time.deltaTime);
             }
 
             if (InScreenTop)
             {
-                transform.position += Vector3.back * (_camSpeed * Time.deltaTime);
+                transform.position += Vector3.back * (camSpeed * Time.deltaTime);
             }
 
             if (InScreenBottom)
             {
-                transform.position += Vector3.forward * (_camSpeed * Time.deltaTime);
+                transform.position += Vector3.forward * (camSpeed * Time.deltaTime);
             }
             
-            if (!_cameraBounds.Contains(transform.position))
+            if (!cameraBounds.Contains(transform.position))
             {
-                transform.position = _cameraBounds.ClosestPoint(transform.position);
+                transform.position = cameraBounds.ClosestPoint(transform.position);
             }
         }
 
@@ -89,18 +137,10 @@ namespace ECS_Multiplayer.Client.Camera
         {
             if (Mathf.Abs(Input.mouseScrollDelta.y) > float.Epsilon)
             {
-                _transposer.m_CameraDistance -= Input.mouseScrollDelta.y * _zoomSpeed * Time.deltaTime;
+                _transposer.m_CameraDistance -= Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime;
                 _transposer.m_CameraDistance =
-                    Mathf.Clamp(_transposer.m_CameraDistance, _minZoomDistance, _maxZoomDistance);
+                    Mathf.Clamp(_transposer.m_CameraDistance, minZoomDistance, maxZoomDistance);
             }
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (!_drawBounds) return;
-            
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(_cameraBounds.center, _cameraBounds.size);
         }
     }
 }
