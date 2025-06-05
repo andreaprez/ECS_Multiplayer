@@ -24,4 +24,10 @@ namespace ECS_Multiplayer.Common.Champion
     { 
         [GhostField(Quantization = 0)] public float3 Value;
     }
+    
+    [GhostComponent(PrefabType = GhostPrefabType.AllPredicted)]
+    public struct AbilityInput : IInputComponentData
+    { 
+        [GhostField] public InputEvent AoeAbility;
+    }
 }
