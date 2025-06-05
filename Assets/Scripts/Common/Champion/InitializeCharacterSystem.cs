@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Rendering;
 
-namespace ECS_Multiplayer.Common
+namespace ECS_Multiplayer.Common.Champion
 {
     [UpdateInGroup(typeof(SimulationSystemGroup), OrderFirst = true)]
     public partial struct InitializeCharacterSystem : ISystem
