@@ -1,10 +1,10 @@
 ﻿using ECS_Multiplayer.Common;
+using ECS_Multiplayer.Common.Champion;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Transforms;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ECS_Multiplayer.Server
@@ -39,7 +39,6 @@ namespace ECS_Multiplayer.Server
                 }
 
                 var clientId = SystemAPI.GetComponent<NetworkId>(requestSource.ValueRO.SourceConnection).Value;
-                Debug.Log($"Server is assigning Client ID: {clientId} to the {requestedTeamType.ToString()} team.");
 
                 float3 spawnPosition;
                 switch (requestedTeamType)
