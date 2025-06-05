@@ -1,5 +1,5 @@
 {
-    "name": "InputActions",
+    "name": "GameInputActions",
     "maps": [
         {
             "name": "GameplayMap",
@@ -49,7 +49,7 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Mouse&Keyboard",
                     "action": "SelectMovePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -90,5 +90,22 @@
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "Mouse&Keyboard",
+            "bindingGroup": "Mouse&Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }
