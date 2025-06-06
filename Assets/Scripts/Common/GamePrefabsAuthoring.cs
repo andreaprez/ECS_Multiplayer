@@ -5,7 +5,12 @@ namespace ECS_Multiplayer.Common
 {
     public class GamePrefabsAuthoring : MonoBehaviour
     {
+        [Header("Entities")]
         public GameObject Champion;
+        
+        [Header("GameObjects")]
+        public GameObject HealthBarPrefab;
+        public GameObject SkillShotAimPrefab;
 
         public class GamePrefabsBaker : Baker<GamePrefabsAuthoring>
         {
@@ -15,6 +20,12 @@ namespace ECS_Multiplayer.Common
                 AddComponent(prefabContainerEntity, new GamePrefabs
                 {
                     Champion = GetEntity(authoring.Champion, TransformUsageFlags.Dynamic)
+                });
+                
+                AddComponentObject(prefabContainerEntity, new UIPrefabs
+                {
+                    HealthBar = authoring.HealthBarPrefab,
+                    SkillShotAim = authoring.SkillShotAimPrefab
                 });
             }
         }

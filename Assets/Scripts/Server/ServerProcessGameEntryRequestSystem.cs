@@ -55,7 +55,7 @@ namespace ECS_Multiplayer.Server
 
                 var newChampion = ecb.Instantiate(championPrefab);
                 ecb.SetName(newChampion, "Champion");
-                var newTransform = LocalTransform.FromPositionRotationScale(spawnPosition, quaternion.identity, 3);
+                var newTransform = LocalTransform.FromPositionRotationScale(spawnPosition, quaternion.identity, 4);
                 ecb.SetComponent(newChampion, newTransform);
                 ecb.SetComponent(newChampion, new GhostOwner { NetworkId = clientId });
                 ecb.SetComponent(newChampion, new GameTeam { Value = requestedTeamType });

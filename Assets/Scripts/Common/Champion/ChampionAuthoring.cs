@@ -19,6 +19,8 @@ namespace ECS_Multiplayer.Common.Champion
                 AddComponent<URPMaterialPropertyBaseColor>(entity);
                 AddComponent<ChampionMoveTargetPosition>(entity);
                 AddComponent(entity, new CharacterMoveSpeed { Value = authoring.MoveSpeed });
+                AddComponent<AbilityInput>(entity);
+                AddComponent<AimInput>(entity);
             }
         }
     }
