@@ -42,4 +42,14 @@ namespace ECS_Multiplayer.Common.Combat
     }
     
     public struct DestroyEntityTag : IComponentData { }
+
+    public struct DamageOnTrigger : IComponentData
+    {
+        public int Value;
+    }
+
+    public struct AlreadyDamagedEntityBuffer : IBufferElementData
+    {
+        public Entity Value;
+    }
 }
