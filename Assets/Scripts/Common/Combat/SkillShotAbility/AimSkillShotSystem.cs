@@ -38,7 +38,7 @@ namespace ECS_Multiplayer.Common.Combat
                 var mainCamera = state.EntityManager.GetComponentObject<MainCamera>(cameraEntity).Value;
 
                 var mousePosition = Input.mousePosition;
-                mousePosition.z = 100f;
+                mousePosition.z = 1000f;
                 var mousePositionInWorld = mainCamera.ScreenToWorldPoint(mousePosition);
 
                 var selectionInput = new RaycastInput
