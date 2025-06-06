@@ -7,7 +7,11 @@ namespace ECS_Multiplayer.Common.Combat
     public class AbilityAuthoring : MonoBehaviour
     {
         public GameObject AoeAbilityPrefab;
+        public GameObject SkillShotAbilityPrefab;
+        
         public float AoeAbilityCooldownSeconds;
+        public float SkillshotAbilityCooldownSeconds;
+        
         public NetCodeConfig NetCodeConfig;
         
         private int SimulationTickRate => NetCodeConfig.ClientServerTickRate.SimulationTickRate;
@@ -19,11 +23,13 @@ namespace ECS_Multiplayer.Common.Combat
                 var entity = GetEntity(TransformUsageFlags.Dynamic);
                 AddComponent(entity, new AbilityPrefabs
                 {
-                    AoeAbility = GetEntity(authoring.AoeAbilityPrefab, TransformUsageFlags.Dynamic)
+                    AoeAbility = GetEntity(authoring.AoeAbilityPrefab, TransformUsageFlags.Dynamic),
+                    SkillShotAbility = GetEntity(authoring.SkillShotAbilityPrefab, TransformUsageFlags.Dynamic)
                 });
                 AddComponent(entity, new AbilityCooldownTicks()
                 {
-                    AoeAbility = (uint)(authoring.AoeAbilityCooldownSeconds * authoring.SimulationTickRate)
+                    AoeAbility = (uint)(authoring.AoeAbilityCooldownSeconds * authoring.SimulationTickRate),
+                    SkillShotAbility = (uint)(authoring.SkillshotAbilityCooldownSeconds * authoring.SimulationTickRate)
                 });
                 AddBuffer<AbilityCooldownTargetTicks>(entity);
             }

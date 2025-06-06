@@ -24,6 +24,7 @@ namespace ECS_Multiplayer.Common.Combat
             var networkTime = SystemAPI.GetSingleton<NetworkTime>();
             if (!networkTime.IsFirstTimeFullyPredictingTick)
                 return;
+            
             var currentTick = networkTime.ServerTick;
 
             foreach (var aoe in SystemAPI.Query<AoeAspect>().WithAll<Simulate>())
@@ -50,30 +51,27 @@ namespace ECS_Multiplayer.Common.Combat
                     }
                 }
                 
-                if (isOnCooldown)
+                if (isOnCooldown || !aoe.ShouldAttack)
                     continue;
                 
-                if (aoe.ShouldAttack)
-                {
-                    var newAoeAbility = ecb.Instantiate(aoe.AbilityPrefab);
-                    var abilityTransform = LocalTransform.FromPositionRotationScale(aoe.AttackPosition, quaternion.identity, 15);
-                    ecb.SetComponent(newAoeAbility, abilityTransform);
-                    ecb.SetComponent(newAoeAbility, aoe.Team);
-                    
-                    if (state.WorldUnmanaged.IsServer())
-                        continue;
-                    
-                    var newCooldownTargetTick = currentTick;
-                    newCooldownTargetTick.Add(aoe.CooldownTicks);
-                    currentTargetTicks.AoeAbility = newCooldownTargetTick;
+                var newAoeAbility = ecb.Instantiate(aoe.AbilityPrefab);
+                var abilityTransform = LocalTransform.FromPositionRotationScale(aoe.AttackPosition, quaternion.identity, 15);
+                ecb.SetComponent(newAoeAbility, abilityTransform);
+                ecb.SetComponent(newAoeAbility, aoe.Team);
+                
+                if (state.WorldUnmanaged.IsServer())
+                    continue;
+                
+                var newCooldownTargetTick = currentTick;
+                newCooldownTargetTick.Add(aoe.CooldownTicks);
+                currentTargetTicks.AoeAbility = newCooldownTargetTick;
 
-                    // To avoid de-sync with server, we need to set the current tick as the next tick
-                    var nextTick = currentTick;
-                    nextTick.Add(1u);
-                    currentTargetTicks.Tick = nextTick;
+                // To avoid de-sync with server, we need to set the current tick as the next tick
+                var nextTick = currentTick;
+                nextTick.Add(1u);
+                currentTargetTicks.Tick = nextTick;
 
-                    aoe.CooldownTargetTicks.AddCommandData(currentTargetTicks);
-                }
+                aoe.CooldownTargetTicks.AddCommandData(currentTargetTicks);
             }
         }
     }

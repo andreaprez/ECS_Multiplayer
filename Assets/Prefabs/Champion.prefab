@@ -340,7 +340,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AoeAbilityPrefab: {fileID: 6760138154020519774, guid: 4b0301a5013ace9469b73c5ecd8087d4,
     type: 3}
+  SkillShotAbilityPrefab: {fileID: 6760138154020519774, guid: 8d264ae5d7cc5404f9a6d3035d76ecad,
+    type: 3}
   AoeAbilityCooldownSeconds: 5
+  SkillshotAbilityCooldownSeconds: 3.5
   NetCodeConfig: {fileID: 11400000, guid: 5c49495a48a9d924491287608681da3e, type: 2}
 --- !u!1 &7284172090724663713
 GameObject:
