@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2001870383066105359}
   - component: {fileID: 2175537158199148280}
   - component: {fileID: 680126025747317359}
+  - component: {fileID: 1768657499630201005}
   m_Layer: 0
   m_Name: AoeAbility
   m_TagString: Untagged
@@ -323,3 +324,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DestroyOnTimer: 3
+--- !u!114 &1768657499630201005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6760138154020519774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1978ea3e23e744dca90ba5480922825b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageOnTrigger: 150
