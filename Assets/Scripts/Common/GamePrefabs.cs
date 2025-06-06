@@ -11,5 +11,6 @@ namespace ECS_Multiplayer.Common
     public class UIPrefabs : IComponentData
     {
         public GameObject HealthBar;
+        public GameObject SkillShotAim;
     }
 }

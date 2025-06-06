@@ -19,6 +19,7 @@ namespace ECS_Multiplayer.Common.Combat
 
         public bool ShouldAttack => _abilityInput.ValueRO.SkillShotAbility.IsSet;
         public bool ConfirmAttack => _abilityInput.ValueRO.ConfirmSkillShotAbility.IsSet;
+        public float3 AttackPosition => _localTransform.ValueRO.Position;
         public LocalTransform SpawnTransform => LocalTransform.FromPositionRotation(_localTransform.ValueRO.Position, 
             quaternion.LookRotationSafe(_aimInput.ValueRO.Value, math.up()));
         public Entity AbilityPrefab => _abilityPrefabs.ValueRO.SkillShotAbility;

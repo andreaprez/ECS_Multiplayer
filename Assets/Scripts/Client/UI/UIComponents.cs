@@ -13,4 +13,9 @@ namespace ECS_Multiplayer.Client.UI
     {
         public float3 Value;
     }
+    
+    public class SkillShotAimUIReference : ICleanupComponentData
+    {
+        public GameObject Value;
+    }
 }

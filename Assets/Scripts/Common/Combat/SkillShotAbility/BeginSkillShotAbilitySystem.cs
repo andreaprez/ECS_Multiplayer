@@ -1,8 +1,11 @@
-﻿using Unity.Collections;
+﻿using ECS_Multiplayer.Client.UI;
+using ECS_Multiplayer.Common.Champion;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace ECS_Multiplayer.Common.Combat
 {
@@ -52,6 +55,14 @@ namespace ECS_Multiplayer.Common.Combat
                     continue;
                     
                 ecb.AddComponent<AimSkillShotTag>(skillShot.ChampionEntity);
+
+                if (state.WorldUnmanaged.IsServer() ||
+                    !SystemAPI.HasComponent<OwnerChampionTag>(skillShot.ChampionEntity))
+                    continue;
+
+                var skillShotUIPrefab = SystemAPI.ManagedAPI.GetSingleton<UIPrefabs>().SkillShotAim;
+                var newSkillShotUI = Object.Instantiate(skillShotUIPrefab, skillShot.AttackPosition, Quaternion.identity);
+                ecb.AddComponent(skillShot.ChampionEntity, new SkillShotAimUIReference { Value = newSkillShotUI });
             }
 
             foreach (var skillShot in
@@ -82,6 +93,23 @@ namespace ECS_Multiplayer.Common.Combat
                 currentTargetTicks.Tick = nextTick;
 
                 skillShot.CooldownTargetTicks.AddCommandData(currentTargetTicks);
+            }
+
+            foreach (var (abilityInput, skillShotAimUIReference, entity) in 
+                     SystemAPI.Query<RefRO<AbilityInput>, SkillShotAimUIReference>().WithAll<Simulate>().WithEntityAccess())
+            {
+                if (!abilityInput.ValueRO.ConfirmSkillShotAbility.IsSet)
+                    continue;
+                
+                Object.Destroy(skillShotAimUIReference.Value);
+                ecb.RemoveComponent<SkillShotAimUIReference>(entity);
+            }
+            
+            foreach (var (skillShotAimUIReference, entity) in 
+                     SystemAPI.Query<SkillShotAimUIReference>().WithAll<Simulate>().WithNone<LocalTransform>().WithEntityAccess())
+            {
+                Object.Destroy(skillShotAimUIReference.Value);
+                ecb.RemoveComponent<SkillShotAimUIReference>(entity);
             }
             
             ecb.Playback(state.EntityManager);

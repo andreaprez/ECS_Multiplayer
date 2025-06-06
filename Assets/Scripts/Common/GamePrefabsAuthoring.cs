@@ -10,6 +10,7 @@ namespace ECS_Multiplayer.Common
         
         [Header("GameObjects")]
         public GameObject HealthBarPrefab;
+        public GameObject SkillShotAimPrefab;
 
         public class GamePrefabsBaker : Baker<GamePrefabsAuthoring>
         {
@@ -23,7 +24,8 @@ namespace ECS_Multiplayer.Common
                 
                 AddComponentObject(prefabContainerEntity, new UIPrefabs
                 {
-                    HealthBar = authoring.HealthBarPrefab
+                    HealthBar = authoring.HealthBarPrefab,
+                    SkillShotAim = authoring.SkillShotAimPrefab
                 });
             }
         }
