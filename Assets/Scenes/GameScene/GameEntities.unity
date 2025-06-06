@@ -996,6 +996,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Champion: {fileID: 4990307241937871106, guid: 843d3c710d4a2c14ca85c97d769eff39,
     type: 3}
+  HealthBarPrefab: {fileID: 3343763718247678672, guid: c296bbbfee95d344e80b833cd82a2d02,
+    type: 3}
 --- !u!1001 &1833232444
 PrefabInstance:
   m_ObjectHideFlags: 0

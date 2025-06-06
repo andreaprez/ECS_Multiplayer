@@ -2,9 +2,7 @@ using Cinemachine;
 using ECS_Multiplayer.Common;
 using ECS_Multiplayer.Common.Champion;
 using Unity.Entities;
-using Unity.NetCode;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ECS_Multiplayer.Client.Camera
 {
