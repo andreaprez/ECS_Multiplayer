@@ -126,6 +126,8 @@ namespace ECS_Multiplayer.Client.Connection
             {
                 Value = team
             });
+            
+            World.DefaultGameObjectInjectionWorld = clientWorld;
         }
     }
 }

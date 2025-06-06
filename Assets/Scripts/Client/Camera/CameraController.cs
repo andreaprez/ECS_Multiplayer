@@ -48,10 +48,10 @@ namespace ECS_Multiplayer.Client.Camera
 
         private void Start()
         {
-            if (ClientServerBootstrap.ClientWorld == null)
+            if (World.DefaultGameObjectInjectionWorld == null)
                 return;
             
-            _entityManager = ClientServerBootstrap.ClientWorld.EntityManager;
+            _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             _teamControllerQuery = _entityManager.CreateEntityQuery(typeof(ClientTeamRequest));
             _localChampQuery = _entityManager.CreateEntityQuery(typeof(OwnerChampionTag));
 
