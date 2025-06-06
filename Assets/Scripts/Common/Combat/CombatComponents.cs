@@ -52,4 +52,17 @@ namespace ECS_Multiplayer.Common.Combat
     {
         public Entity Value;
     }
+    
+    public struct AbilityCooldownTicks : IComponentData
+    {
+        public uint AoeAbility;
+    }
+    
+    [GhostComponent(PrefabType = GhostPrefabType.AllPredicted)]
+    public struct AbilityCooldownTargetTicks : ICommandData
+    {
+        public NetworkTick Tick { get; set; }
+        public NetworkTick AoeAbility;
+
+    }
 }

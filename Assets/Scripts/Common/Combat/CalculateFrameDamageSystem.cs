@@ -1,7 +1,6 @@
 ﻿using Unity.Burst;
 using Unity.Entities;
 using Unity.NetCode;
-using UnityEngine;
 
 namespace ECS_Multiplayer.Common.Combat
 {
