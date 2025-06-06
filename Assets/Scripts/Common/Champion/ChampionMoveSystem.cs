@@ -19,7 +19,7 @@ namespace ECS_Multiplayer.Common.Champion
                 var moveTarget = movePosition.ValueRO.Value;
                 moveTarget.y = transform.ValueRO.Position.y;
 
-                if (math.distancesq(transform.ValueRO.Position, moveTarget) < 0.001f)
+                if (math.distancesq(transform.ValueRO.Position, moveTarget) < 0.05f)
                     continue;
 
                 var moveDirection = math.normalize(moveTarget - transform.ValueRO.Position);
