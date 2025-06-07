@@ -59,23 +59,23 @@ namespace ECS_Multiplayer.Server.Npc
             SpawnOnLane(ecb, minionPrefab, bottomLane);
         }
 
-        private void SpawnOnLane(EntityCommandBuffer ecb, Entity minionPrefab, DynamicBuffer<MinionPathPosition> lane)
+        private void SpawnOnLane(EntityCommandBuffer ecb, Entity minionPrefab, DynamicBuffer<MinionPathPosition> lanePositions)
         {
             var newBlueMinion = ecb.Instantiate(minionPrefab);
-            for (var i = 0; i < lane.Length; i++)
+            for (var i = 0; i < lanePositions.Length; i++)
             {
-                ecb.AppendToBuffer(newBlueMinion, lane[i]);
+                ecb.AppendToBuffer(newBlueMinion, lanePositions[i]);
             }
-            var blueSpawnTransform = LocalTransform.FromPosition(lane[0].Value);
+            var blueSpawnTransform = LocalTransform.FromPosition(lanePositions[0].Value);
             ecb.SetComponent(newBlueMinion, blueSpawnTransform);
             ecb.SetComponent(newBlueMinion, new GameTeam {Value = TeamType.Blue});
             
             var newRedMinion = ecb.Instantiate(minionPrefab);
-            for (var i = lane.Length - 1; i >= 0; i--)
+            for (var i = lanePositions.Length - 1; i >= 0; i--)
             {
-                ecb.AppendToBuffer(newBlueMinion, lane[i]);
+                ecb.AppendToBuffer(newRedMinion, lanePositions[i]);
             }
-            var redSpawnTransform = LocalTransform.FromPosition(lane[^1].Value);
+            var redSpawnTransform = LocalTransform.FromPosition(lanePositions[^1].Value);
             ecb.SetComponent(newRedMinion, redSpawnTransform);
             ecb.SetComponent(newRedMinion, new GameTeam {Value = TeamType.Red});
         }
