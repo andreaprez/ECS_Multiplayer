@@ -1,4 +1,5 @@
-﻿using ECS_Multiplayer.Common.Champion;
+﻿using ECS_Multiplayer.Common;
+using ECS_Multiplayer.Common.Champion;
 using Unity.Entities;
 
 namespace ECS_Multiplayer.Client.Combat
@@ -9,6 +10,7 @@ namespace ECS_Multiplayer.Client.Combat
 
         protected override void OnCreate()
         {
+            RequireForUpdate<GamePlayingTag>();
             _inputActions = new GameInputActions();
         }
 

@@ -13,6 +13,7 @@ namespace ECS_Multiplayer.Server.Npc
         public void OnCreate(ref SystemState state)
         {
             state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
+            state.RequireForUpdate<GamePlayingTag>();
             state.RequireForUpdate<GamePrefabs>();
             state.RequireForUpdate<MinionPathContainers>();
         }

@@ -1,4 +1,5 @@
 ﻿using ECS_Multiplayer.Client.Camera;
+using ECS_Multiplayer.Common;
 using ECS_Multiplayer.Common.Champion;
 using Unity.Entities;
 using Unity.NetCode;
@@ -16,13 +17,15 @@ namespace ECS_Multiplayer.Client.Champion
 
         protected override void OnCreate()
         {
+            RequireForUpdate<GamePlayingTag>();
+            RequireForUpdate<OwnerChampionTag>();
+            
             _inputActions = new GameInputActions();
             _selectionFilter = new CollisionFilter
             {
                 BelongsTo = 1 << 5,
                 CollidesWith = 1 << 0
             };
-            RequireForUpdate<OwnerChampionTag>();
         }
 
         protected override void OnStartRunning()
