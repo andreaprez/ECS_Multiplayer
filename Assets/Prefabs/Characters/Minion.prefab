@@ -180,6 +180,10 @@ GameObject:
   - component: {fileID: 8796340675800166689}
   - component: {fileID: 5368423434310858}
   - component: {fileID: 1544736790823576938}
+  - component: {fileID: 2162588786608992097}
+  - component: {fileID: 4550781313456569454}
+  - component: {fileID: 4607450658478948309}
+  - component: {fileID: 5783457909065281223}
   m_Layer: 0
   m_Name: Minion
   m_TagString: Untagged
@@ -304,7 +308,7 @@ MonoBehaviour:
     m_Template: {fileID: 0}
     m_CollisionResponse:
       m_Override: 0
-      m_Value: 0
+      m_Value: 3
     m_Friction:
       m_Override: 0
       m_Value:
@@ -359,7 +363,7 @@ MonoBehaviour:
         Category03: 1
         Category04: 0
         Category05: 0
-        Category06: 0
+        Category06: 1
         Category07: 0
         Category08: 0
         Category09: 0
@@ -438,6 +442,76 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHitPoints: 250
+  HealthBarOffset: {x: 0, y: 4, z: 0}
+--- !u!114 &2162588786608992097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990307241937871106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e65ea22ca8e4972b6df3c25bf6445e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 4
+--- !u!114 &4550781313456569454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990307241937871106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d26fddee1e964070b2710fe5b0462c3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NpcTargetRadius: 10
+  FirePointOffset: {x: 0, y: 0, z: 0}
+  AttackCooldownTime: 3
+  AttackPrefab: {fileID: 9157588288981907346, guid: 054cc0d776bbfee4c866a98aeed062f8,
+    type: 3}
+  NetCodeConfig: {fileID: 11400000, guid: 5c49495a48a9d924491287608681da3e, type: 2}
+--- !u!114 &4607450658478948309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990307241937871106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c16549610bfe4458aa9389201d072bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5783457909065281223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990307241937871106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c79d771cedb4794bf100ce60df5f764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultGhostMode: 0
+  SupportedGhostModes: 3
+  OptimizationMode: 0
+  Importance: 100
+  MaxSendRate: 0
+  prefabId: 
+  HasOwner: 0
+  SupportAutoCommandTarget: 1
+  TrackInterpolationDelay: 0
+  GhostGroup: 0
+  UsePreSerialization: 0
+  UseSingleBaseline: 0
+  RollbackPredictedSpawnedGhostState: 0
+  RollbackPredictionOnStructuralChanges: 1
 --- !u!1 &8174188046024261478
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,7 +573,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6b72f55504d68264b811ea3a3ef59948, type: 2}
+  - {fileID: 2100000, guid: a6534be2875db394998edf7a5bb0269f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

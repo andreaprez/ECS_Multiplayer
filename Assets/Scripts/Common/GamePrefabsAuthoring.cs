@@ -7,6 +7,7 @@ namespace ECS_Multiplayer.Common
     {
         [Header("Entities")]
         public GameObject Champion;
+        public GameObject Minion;
         
         [Header("GameObjects")]
         public GameObject HealthBarPrefab;
@@ -19,7 +20,8 @@ namespace ECS_Multiplayer.Common
                 var prefabContainerEntity = GetEntity(TransformUsageFlags.None);
                 AddComponent(prefabContainerEntity, new GamePrefabs
                 {
-                    Champion = GetEntity(authoring.Champion, TransformUsageFlags.Dynamic)
+                    Champion = GetEntity(authoring.Champion, TransformUsageFlags.Dynamic),
+                    Minion = GetEntity(authoring.Minion, TransformUsageFlags.Dynamic)
                 });
                 
                 AddComponentObject(prefabContainerEntity, new UIPrefabs

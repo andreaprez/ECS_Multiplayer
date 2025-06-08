@@ -2,7 +2,6 @@
 using ECS_Multiplayer.Common.Champion;
 using Unity.Collections;
 using Unity.Entities;
-using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Transforms;
 using UnityEngine;
@@ -72,7 +71,8 @@ namespace ECS_Multiplayer.Common.Combat
                     continue;
 
                 var skillShotAbility = ecb.Instantiate(skillShot.AbilityPrefab);
-                var abilityTransform = LocalTransform.FromPositionRotationScale(skillShot.SpawnTransform.Position, skillShot.SpawnTransform.Rotation, 6);
+                var abilityTransform = LocalTransform.FromPositionRotationScale(skillShot.SpawnTransform.Position, 
+                    skillShot.SpawnTransform.Rotation, 2);
 
                 ecb.SetComponent(skillShotAbility, abilityTransform);
                 ecb.SetComponent(skillShotAbility, skillShot.Team);
