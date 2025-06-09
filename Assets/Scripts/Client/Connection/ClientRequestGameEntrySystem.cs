@@ -29,7 +29,7 @@ namespace ECS_Multiplayer.Client.Connection
             {
                 ecb.AddComponent<NetworkStreamInGame>(pendingNetworkId);
                 var requestTeamEntity = ecb.CreateEntity();
-                ecb.AddComponent(requestTeamEntity, new TeamRequest { Value = requestedTeam });
+                ecb.AddComponent(requestTeamEntity, new TeamRequestRpc { Value = requestedTeam });
                 ecb.AddComponent(requestTeamEntity, new SendRpcCommandRequest{ TargetConnection = pendingNetworkId });
             }
 

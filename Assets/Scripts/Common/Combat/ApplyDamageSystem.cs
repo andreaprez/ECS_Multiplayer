@@ -12,6 +12,7 @@ namespace ECS_Multiplayer.Common.Combat
         public void OnCreate(ref SystemState state)
         {
             state.RequireForUpdate<NetworkTime>();
+            state.RequireForUpdate<GamePlayingTag>();
         }
 
         [BurstCompile]

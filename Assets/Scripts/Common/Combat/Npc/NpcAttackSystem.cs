@@ -9,12 +9,13 @@ using Unity.Transforms;
 namespace ECS_Multiplayer.Common.Combat.Npc
 {
     [UpdateInGroup(typeof(PredictedSimulationSystemGroup))]
-    public partial struct NpcTagSystem : ISystem
+    public partial struct NpcAttackSystem : ISystem
     {
         public void OnCreate(ref SystemState state)
         {
             state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
             state.RequireForUpdate<NetworkTime>();
+            state.RequireForUpdate<GamePlayingTag>();
         }
 
         public void OnUpdate(ref SystemState state)

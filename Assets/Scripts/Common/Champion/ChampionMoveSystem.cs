@@ -8,6 +8,11 @@ namespace ECS_Multiplayer.Common.Champion
     [UpdateInGroup(typeof(PredictedSimulationSystemGroup))]
     public partial struct ChampionMoveSystem : ISystem
     {
+        public void OnCreate(ref SystemState state)
+        {
+            state.RequireForUpdate<GamePlayingTag>();
+        }
+
         public void OnUpdate(ref SystemState state)
         {
             var deltaTime = SystemAPI.Time.DeltaTime;

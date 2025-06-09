@@ -2,8 +2,18 @@
 
 namespace ECS_Multiplayer.Common
 {
-    public struct TeamRequest : IRpcCommand
+    public struct TeamRequestRpc : IRpcCommand
     {
         public TeamType Value;
+    }
+    
+    public struct PlayersRemainingToStartRpc : IRpcCommand
+    {
+        public int Value;
+    }
+    
+    public struct GameStartTickRpc : IRpcCommand
+    {
+        public NetworkTick Value;
     }
 }
