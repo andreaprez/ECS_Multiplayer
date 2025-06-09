@@ -23,7 +23,6 @@ namespace ECS_Multiplayer.Client.UI
         [SerializeField] private TextMeshProUGUI countdownText;
 
         private EntityQuery _networkConnectionQuery;
-        private EntityManager _entityManager;
 
         private void OnEnable()
         {
@@ -36,8 +35,8 @@ namespace ECS_Multiplayer.Client.UI
             if (World.DefaultGameObjectInjectionWorld == null)
                 return;
 
-            _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-            _networkConnectionQuery = _entityManager.CreateEntityQuery(typeof(NetworkStreamConnection));
+            _networkConnectionQuery = World.DefaultGameObjectInjectionWorld.EntityManager
+                .CreateEntityQuery(typeof(NetworkStreamConnection));
 
             var startGameSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<ClientStartGameSystem>();
             if (startGameSystem != null)

@@ -1,6 +1,8 @@
+using System;
 using Cinemachine;
 using ECS_Multiplayer.Common;
 using ECS_Multiplayer.Common.Champion;
+using ECS_Multiplayer.Common.Respawn;
 using Unity.Entities;
 using UnityEngine;
 
@@ -53,7 +55,25 @@ namespace ECS_Multiplayer.Client.Camera
             _teamControllerQuery = _entityManager.CreateEntityQuery(typeof(ClientTeamRequest));
             _localChampQuery = _entityManager.CreateEntityQuery(typeof(OwnerChampionTag));
 
+            var respawnSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<RespawnChampionSystem>();
+            if (respawnSystem != null)
+            {
+                respawnSystem.OnRespawn += ResetCameraPosition;
+            }
+            
             SetInitialCameraPosition();
+        }
+
+        private void OnDestroy()
+        {
+            if (World.DefaultGameObjectInjectionWorld == null)
+                return;
+            
+            var respawnSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<RespawnChampionSystem>();
+            if (respawnSystem != null)
+            {
+                respawnSystem.OnRespawn -= ResetCameraPosition;
+            }
         }
 
         private void Update()
@@ -83,6 +103,11 @@ namespace ECS_Multiplayer.Client.Camera
             }        
         }
 
+        private void ResetCameraPosition()
+        {
+            _cameraSet = false;
+        }
+        
         private void SetCameraForAutoAssignedTeam()
         {
             if (!_cameraSet)

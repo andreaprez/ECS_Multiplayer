@@ -1027,7 +1027,7 @@ GameObject:
   - component: {fileID: 1516999686}
   - component: {fileID: 1516999687}
   m_Layer: 0
-  m_Name: PrefabContainer
+  m_Name: PrefabsContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1063,6 +1063,10 @@ MonoBehaviour:
   Champion: {fileID: 4990307241937871106, guid: 843d3c710d4a2c14ca85c97d769eff39,
     type: 3}
   Minion: {fileID: 4990307241937871106, guid: 3bba23288af73e0488b281b9d0873458, type: 3}
+  GameOverEntity: {fileID: 7040608547722909581, guid: 6cbae2a2668e9b247a00fbc2dd0e1e06,
+    type: 3}
+  RespawnEntity: {fileID: 132736622969576088, guid: dfcf0cdd99ddcfd499d661e125345d79,
+    type: 3}
   HealthBarPrefab: {fileID: 3343763718247678672, guid: c296bbbfee95d344e80b833cd82a2d02,
     type: 3}
   SkillShotAimPrefab: {fileID: 6760138154020519774, guid: 884846e3198eb254c971c82c9e2404bb,
@@ -1190,7 +1194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxPlayersPerTeam: 5
-  MinPlayersToStartGame: 2
+  MinPlayersToStartGame: 1
   CountdownTime: 3
   SpawnOffsets:
   - {x: 0, y: 0, z: 0}
