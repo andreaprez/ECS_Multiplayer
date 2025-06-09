@@ -1,7 +1,9 @@
-﻿using Unity.Entities;
+﻿using ECS_Multiplayer.Common.Champion;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace ECS_Multiplayer.Common.Combat
 {
@@ -12,6 +14,7 @@ namespace ECS_Multiplayer.Common.Combat
         {
             state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
             state.RequireForUpdate<NetworkTime>();
+            state.RequireForUpdate<GamePrefabs>();
         }
 
         public void OnUpdate(ref SystemState state)
@@ -21,8 +24,6 @@ namespace ECS_Multiplayer.Common.Combat
             if (!networkTime.IsFirstTimeFullyPredictingTick)
                 return;
 
-            var currentTick = networkTime.ServerTick;
-            
             var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
             var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
 
@@ -31,6 +32,16 @@ namespace ECS_Multiplayer.Common.Combat
             {
                 if (state.World.IsServer())
                 {
+                    if (SystemAPI.HasComponent<GameOverOnDestroyTag>(entity))
+                    {
+                        var gameOverPrefab = SystemAPI.GetSingleton<GamePrefabs>().GameOverEntity;
+                        var gameOverEntity = ecb.Instantiate(gameOverPrefab);
+
+                        var losingTeam = SystemAPI.GetComponent<GameTeam>(entity).Value;
+                        var winningTeam = losingTeam == TeamType.Blue ? TeamType.Red : TeamType.Blue;
+
+                        ecb.SetComponent(gameOverEntity, new WinningTeam { Value = winningTeam });
+                    }
                     ecb.DestroyEntity(entity);
                 }
                 else
