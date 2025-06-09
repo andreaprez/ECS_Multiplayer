@@ -1,9 +1,9 @@
 ﻿using ECS_Multiplayer.Common.Champion;
+using ECS_Multiplayer.Common.Respawn;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace ECS_Multiplayer.Common.Combat
 {
@@ -15,6 +15,7 @@ namespace ECS_Multiplayer.Common.Combat
             state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
             state.RequireForUpdate<NetworkTime>();
             state.RequireForUpdate<GamePrefabs>();
+            state.RequireForUpdate<RespawnEntityTag>();
         }
 
         public void OnUpdate(ref SystemState state)
@@ -23,7 +24,9 @@ namespace ECS_Multiplayer.Common.Combat
             
             if (!networkTime.IsFirstTimeFullyPredictingTick)
                 return;
-
+            
+            var currentTick = networkTime.ServerTick;
+            
             var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
             var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
 
@@ -42,6 +45,24 @@ namespace ECS_Multiplayer.Common.Combat
 
                         ecb.SetComponent(gameOverEntity, new WinningTeam { Value = winningTeam });
                     }
+
+                    if (SystemAPI.HasComponent<ChampionTag>(entity))
+                    {
+                        var networkEntity = SystemAPI.GetComponent<NetworkEntityReference>(entity).Value;
+                        var respawnEntity = SystemAPI.GetSingletonEntity<RespawnEntityTag>();
+                        var respawnTickCount = SystemAPI.GetComponent<RespawnTickCount>(respawnEntity).Value;
+
+                        var respawnTick = currentTick;
+                        respawnTick.Add(respawnTickCount);
+                        
+                        ecb.AppendToBuffer(respawnEntity, new RespawnBuffer
+                        {
+                            NetworkEntity = networkEntity,
+                            NetworkId = SystemAPI.GetComponent<NetworkId>(networkEntity).Value,
+                            RespawnTick = respawnTick
+                        });
+                    }
+                    
                     ecb.DestroyEntity(entity);
                 }
                 else

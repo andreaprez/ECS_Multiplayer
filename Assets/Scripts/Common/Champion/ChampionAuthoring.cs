@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using ECS_Multiplayer.Common.Respawn;
+using Unity.Entities;
 using Unity.Rendering;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace ECS_Multiplayer.Common.Champion
                 AddComponent(entity, new CharacterMoveSpeed { Value = authoring.MoveSpeed });
                 AddComponent<AbilityInput>(entity);
                 AddComponent<AimInput>(entity);
+                AddComponent<NetworkEntityReference>(entity);
             }
         }
     }

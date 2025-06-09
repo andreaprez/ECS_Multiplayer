@@ -1,11 +1,11 @@
 ﻿using ECS_Multiplayer.Common;
 using ECS_Multiplayer.Common.Champion;
+using ECS_Multiplayer.Common.Respawn;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace ECS_Multiplayer.Server
 {
@@ -85,9 +85,18 @@ namespace ECS_Multiplayer.Server
 
                 ecb.AppendToBuffer(requestSource.ValueRO.SourceConnection, new LinkedEntityGroup { Value = newChampion });
 
-                var playersRemainingToStart = gameStartProperties.MinPlayersToStartGame - teamPlayerCounter.TotalPlayers;
+                ecb.SetComponent(newChampion, new NetworkEntityReference
+                {
+                    Value = requestSource.ValueRO.SourceConnection
+                });
+                ecb.AddComponent(requestSource.ValueRO.SourceConnection, new PlayerSpawnInfo
+                {
+                    Team = requestedTeamType,
+                    SpawnPosition = spawnPosition
+                });
 
                 var gameStartRpc = ecb.CreateEntity();
+                var playersRemainingToStart = gameStartProperties.MinPlayersToStartGame - teamPlayerCounter.TotalPlayers;
                 if (playersRemainingToStart <= 0 && !SystemAPI.HasSingleton<GamePlayingTag>())
                 {
                     var simulationTickRate = NetCodeConfig.Global.ClientServerTickRate.SimulationTickRate;
