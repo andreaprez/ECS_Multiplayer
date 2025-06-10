@@ -96,28 +96,35 @@ namespace ECS_Multiplayer.Server
                 });
 
                 var gameStartRpc = ecb.CreateEntity();
-                var playersRemainingToStart = gameStartProperties.MinPlayersToStartGame - teamPlayerCounter.TotalPlayers;
-                if (playersRemainingToStart <= 0 && !SystemAPI.HasSingleton<GamePlayingTag>())
-                {
-                    var simulationTickRate = NetCodeConfig.Global.ClientServerTickRate.SimulationTickRate;
-                    var ticksUntilStart = (uint)(simulationTickRate * gameStartProperties.CountdownTime);
-                    var gameStartTick = SystemAPI.GetSingleton<NetworkTime>().ServerTick;
-                    gameStartTick.Add(ticksUntilStart);
-                    ecb.AddComponent(gameStartRpc, new GameStartTickRpc
+                
+                    var playersRemainingToStart = gameStartProperties.MinPlayersToStartGame - teamPlayerCounter.TotalPlayers;
+                    if (playersRemainingToStart > 0 && !SystemAPI.HasSingleton<GamePlayingTag>())
                     {
-                        Value = gameStartTick
-                    });
+                        ecb.AddComponent(gameStartRpc, new PlayersRemainingToStartRpc { Value = playersRemainingToStart });
+                    }
+                    else
+                    {
+                        var gameStartTick = SystemAPI.GetSingleton<NetworkTime>().ServerTick;
+                        
+                        if (!SystemAPI.HasSingleton<GamePlayingTag>())
+                        {
+                            var simulationTickRate = NetCodeConfig.Global.ClientServerTickRate.SimulationTickRate;
+                            var ticksUntilStart = (uint)(simulationTickRate * gameStartProperties.CountdownTime);
+                            gameStartTick.Add(ticksUntilStart);
+                        }
+                        
+                        ecb.AddComponent(gameStartRpc, new GameStartTickRpc
+                        {
+                            Value = gameStartTick
+                        });
+
+                        var gameStartEntity = ecb.CreateEntity();
+                        ecb.AddComponent(gameStartEntity, new GameStartTick
+                        {
+                            Value = gameStartTick
+                        });
+                    }
                     
-                    var gameStartEntity = ecb.CreateEntity();
-                    ecb.AddComponent(gameStartEntity, new GameStartTick
-                    {
-                        Value = gameStartTick
-                    });
-                }
-                else
-                {
-                    ecb.AddComponent(gameStartRpc, new PlayersRemainingToStartRpc { Value = playersRemainingToStart });
-                }
                 ecb.AddComponent<SendRpcCommandRequest>(gameStartRpc);
             }
 

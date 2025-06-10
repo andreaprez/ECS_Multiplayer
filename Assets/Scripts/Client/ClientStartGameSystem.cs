@@ -11,6 +11,7 @@ namespace ECS_Multiplayer.Client
     {
         public Action<int> OnUpdatePlayersRemainingToStart;
         public Action OnStartGameCountdown;
+        public Action OnSkipWait;
 
         protected override void OnUpdate()
         {
@@ -24,16 +25,21 @@ namespace ECS_Multiplayer.Client
             }
             
             foreach (var (gameStartTick, entity) in 
-                     SystemAPI.Query<RefRO<GameStartTickRpc>>().WithAll<ReceiveRpcCommandRequest>().WithEntityAccess())
+                     SystemAPI.Query<RefRO<GameStartTickRpc>>().WithAll<ReceiveRpcCommandRequest>().WithNone<GamePlayingTag>().WithEntityAccess())
             {
                 ecb.DestroyEntity(entity);
-                OnStartGameCountdown?.Invoke();
 
                 var gameStartEntity = ecb.CreateEntity();
                 ecb.AddComponent(gameStartEntity, new GameStartTick
                 {
                     Value = gameStartTick.ValueRO.Value
                 });
+
+                var networkTime = SystemAPI.GetSingleton<NetworkTime>();
+                if (gameStartTick.ValueRO.Value.TickIndexForValidTick <= networkTime.ServerTick.TickIndexForValidTick)
+                    OnSkipWait?.Invoke();
+                else
+                    OnStartGameCountdown?.Invoke();
             }
             
             ecb.Playback(EntityManager);

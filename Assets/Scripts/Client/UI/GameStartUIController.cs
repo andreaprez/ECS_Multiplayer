@@ -43,6 +43,7 @@ namespace ECS_Multiplayer.Client.UI
             {
                 startGameSystem.OnUpdatePlayersRemainingToStart += UpdatePlayersRemainingText;
                 startGameSystem.OnStartGameCountdown += BeginCountdown;
+                startGameSystem.OnSkipWait += SkipWait;
             }
 
             var countdownSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<CountdownToGameStartSystem>();
@@ -110,6 +111,11 @@ namespace ECS_Multiplayer.Client.UI
             confirmQuitPanel.SetActive(false);
         }
 
+        private void SkipWait()
+        {
+            beginGamePanel.SetActive(false);
+        }
+        
         private IEnumerator DisconnectDelayed()
         {
             yield return new WaitForSeconds(1f);
