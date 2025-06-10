@@ -64,7 +64,7 @@ namespace ECS_Multiplayer.Common.Combat.Npc
 
             var newAttack = ECB.Instantiate(sortKey, attackProperties.AttackPrefab);
             var newAttackTransform = LocalTransform.FromPositionRotationScale(spawnPosition,
-                quaternion.LookRotationSafe(targetPosition - spawnPosition, math.up()), 2);
+                quaternion.LookRotationSafe(targetPosition - spawnPosition, math.up()), 1);
             
             ECB.SetComponent(sortKey, newAttack, newAttackTransform);
             ECB.SetComponent(sortKey, newAttack, team);

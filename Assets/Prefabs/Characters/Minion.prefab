@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NpcTargetRadius: 10
-  FirePointOffset: {x: 0, y: 0, z: 0}
+  FirePointOffset: {x: 0, y: 2, z: 0}
   AttackCooldownTime: 3
   AttackPrefab: {fileID: 9157588288981907346, guid: 054cc0d776bbfee4c866a98aeed062f8,
     type: 3}
