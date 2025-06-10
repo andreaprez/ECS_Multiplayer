@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeBetweenWaves: 10
-  TimeBetweenMinions: 1
+  TimeBetweenMinions: 1.5
   CountToSpawnInWave: 3
 --- !u!114 &216519503
 MonoBehaviour:
@@ -267,17 +267,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TopLanePath:
-  - {x: -50, y: 0, z: -40}
-  - {x: -50, y: 0, z: 50}
-  - {x: 40, y: 0, z: 50}
+  - {x: -75, y: 0, z: -70}
+  - {x: -75, y: 0, z: 75}
+  - {x: 70, y: 0, z: 75}
   MiddleLanePath:
-  - {x: -40, y: 1, z: -40}
-  - {x: 0, y: 1, z: 0}
-  - {x: 40, y: 1, z: 40}
+  - {x: -70, y: 0, z: -70}
+  - {x: 0, y: 0, z: 0}
+  - {x: 70, y: 0, z: 70}
   BottomLanePath:
-  - {x: -40, y: 0, z: -50}
-  - {x: 50, y: 0, z: -50}
-  - {x: 50, y: 0, z: 40}
+  - {x: -70, y: 0, z: -75}
+  - {x: 75, y: 0, z: -75}
+  - {x: 75, y: 0, z: 70}
 --- !u!1001 &382220374
 PrefabInstance:
   m_ObjectHideFlags: 0
