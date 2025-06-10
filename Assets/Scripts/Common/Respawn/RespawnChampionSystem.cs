@@ -61,7 +61,7 @@ namespace ECS_Multiplayer.Common.Respawn
                             
                             ecb.SetComponent(newChampion, new GhostOwner { NetworkId = networkId });
                             ecb.SetComponent(newChampion, new GameTeam { Value = playerSpawnInfo.Team });
-                            var newTransform = LocalTransform.FromPositionRotationScale(playerSpawnInfo.SpawnPosition, quaternion.identity, 4);
+                            var newTransform = LocalTransform.FromPosition(playerSpawnInfo.SpawnPosition);
                             ecb.SetComponent(newChampion, newTransform);
                             ecb.SetComponent(newChampion, new ChampionMoveTargetPosition { Value = playerSpawnInfo.SpawnPosition });
                             ecb.AppendToBuffer(currentRespawn.NetworkEntity, new LinkedEntityGroup { Value = newChampion });

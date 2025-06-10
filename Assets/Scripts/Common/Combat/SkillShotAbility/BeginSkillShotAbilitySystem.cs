@@ -72,7 +72,7 @@ namespace ECS_Multiplayer.Common.Combat
 
                 var skillShotAbility = ecb.Instantiate(skillShot.AbilityPrefab);
                 var abilityTransform = LocalTransform.FromPositionRotationScale(skillShot.SpawnTransform.Position, 
-                    skillShot.SpawnTransform.Rotation, 2);
+                    skillShot.SpawnTransform.Rotation, 1);
 
                 ecb.SetComponent(skillShotAbility, abilityTransform);
                 ecb.SetComponent(skillShotAbility, skillShot.Team);

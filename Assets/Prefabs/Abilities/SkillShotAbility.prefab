@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9facb9e0b349d0be9302f71d17444d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestroyOnTimer: 2
+  DestroyOnTimer: 1.5
 --- !u!114 &1768657499630201005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,4 +350,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a89e920ca77491282a69ed0e80e9f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityMoveSpeed: 7.5
+  AbilityMoveSpeed: 20

@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using ECS_Multiplayer.Common.Npc;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
@@ -13,7 +14,7 @@ namespace ECS_Multiplayer.Common.Champion
         {
             var ecb = new EntityCommandBuffer(Allocator.Temp);
             foreach (var (physicsMass, gameTeam, newCharacterEntity) in 
-                     SystemAPI.Query<RefRW<PhysicsMass>, RefRO<GameTeam>>().WithAny<NewChampionTag>().WithEntityAccess())
+                     SystemAPI.Query<RefRW<PhysicsMass>, RefRO<GameTeam>>().WithAny<NewChampionTag, NewMinionTag>().WithEntityAccess())
             {
                 // Setting it as kinematic:
                 physicsMass.ValueRW.InverseInertia[0] = 0;
@@ -22,13 +23,14 @@ namespace ECS_Multiplayer.Common.Champion
 
                 var teamColor = gameTeam.ValueRO.Value switch
                 {
-                    TeamType.Blue => new float4(0, 0, 1, 1),
-                    TeamType.Red => new float4(1, 0, 0, 1),
+                    TeamType.Blue => new float4(0.03f, 0.07f, 0.9f, 1),
+                    TeamType.Red => new float4(0.8f, 0.1f, 0.1f, 1),
                     _ => new float4()
                 };
                 ecb.SetComponent(newCharacterEntity, new URPMaterialPropertyBaseColor { Value = teamColor });
 
                 ecb.RemoveComponent<NewChampionTag>(newCharacterEntity);
+                ecb.RemoveComponent<NewMinionTag>(newCharacterEntity);
             }
 
             ecb.Playback(state.EntityManager);

@@ -59,7 +59,7 @@ namespace ECS_Multiplayer.Server
                     case TeamType.Blue:
                         if (teamPlayerCounter.BlueTeamPlayers >= gameStartProperties.MaxPlayersPerTeam)
                             continue;
-                        spawnPosition = new float3(-75f, 3f, -75f);
+                        spawnPosition = new float3(-60f, 0f, -60f);
                         spawnPosition += spawnOffsets[teamPlayerCounter.BlueTeamPlayers].Value;
                         teamPlayerCounter.BlueTeamPlayers++;
                         break;
@@ -67,7 +67,7 @@ namespace ECS_Multiplayer.Server
                     case TeamType.Red:
                         if (teamPlayerCounter.RedTeamPlayers >= gameStartProperties.MaxPlayersPerTeam)
                             continue;
-                        spawnPosition = new float3(75f, 3f, 75f);
+                        spawnPosition = new float3(60f, 0f, 60f);
                         spawnPosition += spawnOffsets[teamPlayerCounter.RedTeamPlayers].Value;
                         teamPlayerCounter.RedTeamPlayers++;
                         break;
@@ -78,7 +78,7 @@ namespace ECS_Multiplayer.Server
 
                 var newChampion = ecb.Instantiate(championPrefab);
                 ecb.SetName(newChampion, "Champion");
-                var newTransform = LocalTransform.FromPositionRotationScale(spawnPosition, quaternion.identity, 4);
+                var newTransform = LocalTransform.FromPosition(spawnPosition);
                 ecb.SetComponent(newChampion, newTransform);
                 ecb.SetComponent(newChampion, new GhostOwner { NetworkId = clientId });
                 ecb.SetComponent(newChampion, new GameTeam { Value = requestedTeamType });
