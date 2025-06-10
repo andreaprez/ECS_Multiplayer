@@ -59,7 +59,7 @@ namespace ECS_Multiplayer.Server
                     case TeamType.Blue:
                         if (teamPlayerCounter.BlueTeamPlayers >= gameStartProperties.MaxPlayersPerTeam)
                             continue;
-                        spawnPosition = new float3(-75f, 0f, -75f);
+                        spawnPosition = new float3(-60f, 0f, -60f);
                         spawnPosition += spawnOffsets[teamPlayerCounter.BlueTeamPlayers].Value;
                         teamPlayerCounter.BlueTeamPlayers++;
                         break;
@@ -67,7 +67,7 @@ namespace ECS_Multiplayer.Server
                     case TeamType.Red:
                         if (teamPlayerCounter.RedTeamPlayers >= gameStartProperties.MaxPlayersPerTeam)
                             continue;
-                        spawnPosition = new float3(75f, 0f, 75f);
+                        spawnPosition = new float3(60f, 0f, 60f);
                         spawnPosition += spawnOffsets[teamPlayerCounter.RedTeamPlayers].Value;
                         teamPlayerCounter.RedTeamPlayers++;
                         break;
